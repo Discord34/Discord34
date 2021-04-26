@@ -81,7 +81,7 @@ async def _rule34(ctx, *, tags=None):
 
             ### Embed
             embed = discord.Embed(color=random.choice(colors))
-            embed.add_field(name='Tags', value=tags, inline=False)
+            embed.add_field(name='Tags', value=t, inline=False)
             embed.add_field(name='Score', value=score, inline=False)
             embed.add_field(name='Post not showing?', value='Click [here]({}) to open it in your browser.'.format(url), inline=False)
             embed.set_footer(text=f'Requested by {ctx.message.author}')
