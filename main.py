@@ -34,15 +34,15 @@ async def on_ready():
 @client.command(aliases=['r34', 'rule34'])
 @commands.cooldown(2, 5, commands.BucketType.user)
 @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
-async def _rule34(ctx, *, tags=None):
+async def _rule34(ctx, *, user_tags=None):
     if ctx.message.channel.is_nsfw():
-        if tags == None:
+        if user_tags == None:
             await ctx.send('Hmm... maybe put some tags?')
             return
         
         async with ctx.typing():
             ### Gets the file
-            file = await r34.getImages(tags, randomPID=True)
+            file = await r34.getImages(user_tags, randomPID=True)
             # No images found.
             if not file:
                 await ctx.send('No images found.')
@@ -65,18 +65,13 @@ async def _rule34(ctx, *, tags=None):
                 t = t + f'{image_tags[index]}, '
                 index = index + 1
             t = t + f'{image_tags[index]}'
-
-            # **Bold** selected tags
-            index = 0
-            for i in range(len(tags)):
-                t = t.replace(tags[index], f'**{tags[index]}**')
                         
             # Replace _ with \_ so italics do not exist
             t = t.replace('_', '\_')
 
             # If tags > 1024, discont...
-            if len(tags) > 1024:
-                t = f'{tags[:-3]}...'
+            if len(user_tags) > 1024:
+                t = f'{user_tags[:-3]}...'
 
 
             ### Embed
