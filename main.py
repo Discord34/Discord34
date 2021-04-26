@@ -41,7 +41,7 @@ async def _rule34(ctx, *, tags=None):
             return
         
         async with ctx.typing():
-            # Gets the file
+            ### Gets the file
             file = await r34.getImages(tags, randomPID=True)
             # No images found.
             if not file:
@@ -49,27 +49,37 @@ async def _rule34(ctx, *, tags=None):
                 return
 
 
-            # Gets a random image
+            ### Gets a random image
             file = random.choice(file)
+            
             # Gets image url, tags, and score
             url = file.file_url
             image_tags = file.tags
             score = file.score
 
 
-            # Makes the tags look nice
-            tags = ''
+            ### Makes the tags look nice instead of being an ['array']
+            t = ''
             index = 0
             for i in range(len(image_tags)-1):
-                tags = tags + f'{image_tags[index]}, '
+                t = t + f'{image_tags[index]}, '
                 index = index + 1
-            tags = tags + f'{image_tags[index]}'
-            tags = tags.replace('_', '\_')
+            t = t + f'{image_tags[index]}'
+
+            # **Bold** selected tags
+            index = 0
+            for i in range(len(tags)):
+                t = t.replace(tags[index], f'**{tags[index]}**')
+                        
+            # Replace _ with \_ so italics do not exist
+            t = t.replace('_', '\_')
+
+            # If tags > 1024, discont...
             if len(tags) > 1024:
-                tags = f'{tags[:-3]}...'
+                t = f'{tags[:-3]}...'
 
 
-            # Embed
+            ### Embed
             embed = discord.Embed(color=random.choice(colors))
             embed.add_field(name='Tags', value=tags, inline=False)
             embed.add_field(name='Score', value=score, inline=False)
