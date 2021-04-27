@@ -14,7 +14,7 @@ import time
 
 
 # Client setup
-client = commands.Bot(command_prefix=commands.when_mentioned_or('r! ', 'r34! ', 'r!', 'r!34'))
+client = commands.Bot(command_prefix=commands.when_mentioned_or('r! ', 'r34! ', 'r!', 'r34!'))
 client.remove_command('help')
 r34 = rule34.Rule34(client.loop)
 colors = [discord.Color.red(), discord.Color.orange(), discord.Color.gold(), discord.Color.green(), discord.Color.blue(), discord.Color.purple(), discord.Color.magenta(), discord.Color.blurple()]
@@ -32,7 +32,7 @@ async def on_ready():
             
 # r34 command
 @client.command(aliases=['r34', 'rule34'])
-@commands.cooldown(2, 5, commands.BucketType.user)
+@commands.cooldown(1, 5, commands.BucketType.user)
 @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
 async def _rule34(ctx, *, user_tags=None):
     if ctx.message.channel.is_nsfw():
