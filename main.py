@@ -33,9 +33,9 @@ async def on_ready():
 # r34 command
 @client.command(aliases=['r34', 'rule34'])
 @commands.cooldown(1, 5, commands.BucketType.user)
-@commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
+@commands.max_concurrency(1, per=commands.BucketType.channel, wait=False)
 async def _rule34(ctx, *, user_tags=None):
-    if ctx.message.channel.is_nsfw():
+    if ctx.message.channel.is_nsfw() or isinstance(ctx.channel, discord.channel.DMChannel):
         if user_tags == None:
             await ctx.send('Hmm... maybe put some tags?')
             return
